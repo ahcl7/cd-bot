@@ -1,0 +1,19 @@
+{
+  "name": "bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cardano-crypto.js": "https://github.com/kadena-io/cardano-crypto.js.git#jam@chainweaver-keygen",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.1.4",
+    "git-diff": "^2.0.6",
+    "lodash": "^4.17.21",
+    "pact-lang-api": "^4.3.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
