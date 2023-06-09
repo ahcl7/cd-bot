@@ -8,6 +8,7 @@ import {BrawlerBearAttackContractUpdateDetector} from "./workers/BrawlerBearAtta
 import {ClimateChangeDetector} from "./workers/ClimateChangeDetector";
 import {BrawlerBearSalesDetector} from "./workers/BrawlerBearSalesDetector";
 import {PendingBattleChangeDetector} from "./workers/PendingBattleChangeDetector";
+import {MessageHandler} from "./message-handler";
 const path = require("path")
 const fs = require("fs");
 const {BattleChangeDetector} = require("./workers/BattleChangeDetector");
@@ -37,11 +38,10 @@ const workers: DataWorker[] = [
 
 
 client.on(ShardEvents.Ready, () => {
-  console.log(`Loggined in as ${client?.user?.tag}`)
   let id = 0
   setInterval(() => {
     workers.forEach(worker => {
-      worker.updateAndNotifyToPublisher()
+      worker.updateAndNotifyToPublisher().then(() => {})
     })
   }, 60000)
   client.channels.fetch(process.env.CHANNEL_ID || "").then((channel) => {
@@ -49,5 +49,17 @@ client.on(ShardEvents.Ready, () => {
   })
 })
 
-console.log(process.env.TOKEN)
+client.on(Events.MessageCreate, msg => {
+  const publisher = new Publisher()
+  publisher.initDiscordClient(msg.channel)
+  const messageHandler = new MessageHandler(publisher)
+  messageHandler.processMessage(msg.content).then(() => {});
+})
+
+client.on(Events.MessageUpdate, msg => {
+  const publisher = new Publisher()
+  publisher.initDiscordClient(msg.channel)
+  const messageHandler = new MessageHandler(publisher)
+  messageHandler.processMessage(msg.reactions.message.content || "").then(() => {});
+})
 client.login(process.env.TOKEN || "");

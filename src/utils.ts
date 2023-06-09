@@ -17,20 +17,11 @@ const defaultMeta = () => {
 export const NETWORK = (chainID: Number | string) => `https://api.chainweb.com/chainweb/0.0/mainnet01/chain/${chainID}/pact`
 
 const readFromContract = async (cmd: { pactCode: string, meta: {} }, networkUrl: string) => {
-  try {
-    let data = await Pact.fetch.local(cmd, networkUrl);
-    if (_.get(data, 'result.status') === 'success') {
-      return data.result.data;
-    } else {
-
-      console.log('ERROR readFromContract:', _.get(data, 'result.error'))
-    }
-  } catch (e) {
-    // setAlertMessage({
-    //   severity: 'error',
-    //   message: 'Error fetching data from the blockchain',
-    // });
-    console.log('ERROR fetching data from the blockchain:', e);
+  let data = await Pact.fetch.local(cmd, networkUrl);
+  if (_.get(data, 'result.status') === 'success') {
+    return data.result.data;
+  } else {
+    throw new Error(`ERROR readFromContract: ${_.get(data, 'result.error.message')}`)
   }
   return null;
 };
