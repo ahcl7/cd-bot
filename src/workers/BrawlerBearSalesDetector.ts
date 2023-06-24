@@ -32,7 +32,8 @@ export class BrawlerBearSalesDetector extends DataWorker {
       "level",
       "max-health-power",
       "current-health-power",
-      "type"
+      "type",
+      "owner"
     ]
     pactCode = `(free.brawler-bears.get-nft-fields-for-ids ${listToStr(attrs)} ${listToStr(allOnSales.map(x => x.id))})`
     const data: NFT[] = await readFromChainWeb(pactCode)

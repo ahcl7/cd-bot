@@ -9,6 +9,9 @@ import {ClimateChangeDetector} from "./workers/ClimateChangeDetector";
 import {BrawlerBearSalesDetector} from "./workers/BrawlerBearSalesDetector";
 import {PendingBattleChangeDetector} from "./workers/PendingBattleChangeDetector";
 import {MessageHandler} from "./message-handler";
+import {EightiesBullContractUpdateDetector} from "./workers/EightiesBullContractUpdateDetector";
+import {NinetiesBullContractUpdateDetector} from "./workers/NinetiesBullContractUpdateDetector";
+import {VariationApesContractUpdateDetector} from "./workers/VariationApesContractUpdateDetector";
 const path = require("path")
 const fs = require("fs");
 const {BattleChangeDetector} = require("./workers/BattleChangeDetector");
@@ -34,6 +37,9 @@ const workers: DataWorker[] = [
   new ClimateChangeDetector(publisher),
   new BrawlerBearSalesDetector(publisher),
   new PendingBattleChangeDetector(publisher),
+  new EightiesBullContractUpdateDetector(publisher),
+  new NinetiesBullContractUpdateDetector(publisher),
+  new VariationApesContractUpdateDetector(publisher)
 ]
 
 
